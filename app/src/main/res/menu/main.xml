@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_sort_by_name"
+        android:title="Sort by name"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/action_sort_by_status"
+        android:title="Sort by status"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/action_sort_original_order"
+        android:title="Original order"
+        tools:ignore="HardcodedText"/>
+</menu>

@@ -1,15 +1,11 @@
 package jp.takuji31.diffutilsample
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ViewHolder
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import jp.takuji31.diffutilsample.Status.*
 
@@ -108,5 +104,35 @@ class MainActivity : AppCompatActivity() {
 
         adapter.items = Artist.list
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_sort_by_name -> {
+                val newList = Artist.list.sortedBy { it.name }
+                updateItems(items = newList)
+            }
+            R.id.action_sort_by_status -> {
+                val newList = Artist.list.sortedBy { it.status }
+                updateItems(items = newList)
+            }
+            R.id.action_sort_original_order -> {
+                val newList = Artist.list
+                updateItems(items = newList)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun updateItems(items : List<Artist>) {
+        val oldItems = adapter.items
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(oldList = oldItems, newList = items), true)
+        adapter.items = items
+        diffResult.dispatchUpdatesTo(adapter)
     }
 }
