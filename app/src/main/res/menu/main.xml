@@ -11,7 +11,15 @@
         android:title="Sort by status"
         tools:ignore="HardcodedText"/>
     <item
-        android:id="@+id/action_sort_original_order"
-        android:title="Original order"
+        android:id="@+id/action_remove_first"
+        android:title="Remove first"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/action_remove_last"
+        android:title="Remove last"
+        tools:ignore="HardcodedText"/>
+    <item
+        android:id="@+id/action_reset"
+        android:title="Reset"
         tools:ignore="HardcodedText"/>
 </menu>

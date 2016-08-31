@@ -64,6 +64,20 @@ class Adapter() : RecyclerView.Adapter<Adapter.ViewHolder>() {
             Status.LIKE -> "Like"
             Status.LOVE -> "Love"
         }
+        holder.itemView.setOnClickListener {
+            val adapterPosition = holder.adapterPosition
+            val oldItem = items[adapterPosition]
+            val newStatus = when (oldItem.status) {
+                Status.INTERESTED -> LIKE
+                Status.LIKE -> LOVE
+                Status.LOVE -> LOVE
+            }
+            val newItem = oldItem.copy(status = newStatus)
+            val newItems = items.take(adapterPosition) + newItem + items.drop(adapterPosition + 1)
+            val diffResult = DiffUtil.calculateDiff(DiffCallback(items, newItems))
+            items = newItems
+            diffResult.dispatchUpdatesTo(this)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -114,15 +128,23 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sort_by_name -> {
-                val newList = Artist.list.sortedBy { it.name }
+                val newList = adapter.items.sortedBy { it.name }
                 updateItems(items = newList)
             }
             R.id.action_sort_by_status -> {
-                val newList = Artist.list.sortedBy { it.status }
+                val newList = adapter.items.sortedByDescending { it.status }
                 updateItems(items = newList)
             }
-            R.id.action_sort_original_order -> {
+            R.id.action_reset -> {
                 val newList = Artist.list
+                updateItems(items = newList)
+            }
+            R.id.action_remove_first -> {
+                val newList = adapter.items.drop(1)
+                updateItems(items = newList)
+            }
+            R.id.action_remove_last -> {
+                val newList = adapter.items.dropLast(1)
                 updateItems(items = newList)
             }
         }
